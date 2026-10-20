@@ -1,0 +1,6 @@
+{
+  "name": "Will You Be My Garba Partner? ❤️✨",
+  "description": "A magical, romantic Navratri interactive invitation to ask your special someone to play Garba under the festival lights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

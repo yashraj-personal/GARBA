@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Will You Be My Garba Partner? ❤️✨</title>
+  <meta name="description" content="A magical, romantic Navratri interactive invitation to ask your special someone to play Garba under the festival lights." />
+  <meta property="og:title" content="Will You Be My Garba Partner? ❤️✨" />
+  <meta property="og:description" content="A magical, romantic Navratri interactive invitation to ask your special someone to play Garba under the festival lights." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Cormorant Garamond, Outfit, Great Vibes, Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS Reset & Root Theme */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --bg-midnight: #0b0217;
+      --bg-dark-purple: #170529;
+      --bg-royal: #2a0845;
+      --gold-primary: #fbd364;
+      --gold-light: #fff2b2;
+      --gold-deep: #d99a26;
+      --magenta-vivid: #e0218a;
+      --pink-soft: #ff75c3;
+      --orange-festive: #ff6b35;
+      --marigold: #f7a01d;
+      --teal-accent: #00d2be;
+      --glass-bg: rgba(26, 7, 44, 0.72);
+      --glass-border: rgba(251, 211, 100, 0.35);
+      --font-heading: 'Playfair Display', serif;
+      --font-display: 'Cinzel Decorative', serif;
+      --font-script: 'Great Vibes', cursive;
+      --font-body: 'Outfit', sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      min-height: -webkit-fill-available;
+      overflow-x: hidden;
+      background-color: var(--bg-midnight);
+      color: #fff;
+      font-family: var(--font-body);
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100dvh;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 25%, #2a0b4d 0%, #150426 50%, #080112 100%);
+    }
+
+    /* Ambient Background Canvas (Stars, Petals, Diyas, Heart Swirl) */
+    #ambient-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Top Festive Fairy Lights Garland */
+    .fairy-lights-garland {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      z-index: 10;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .fairy-wire {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Top Floating Action Bar (Audio Toggle + Personalize Settings) */
+    .top-controls {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ctrl-btn {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(251, 211, 100, 0.4);
+      color: #fff;
+      border-radius: 9999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .ctrl-btn:hover {
+      background: rgba(251, 211, 100, 0.25);
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(251, 211, 100, 0.3);
+    }
+
+    .ctrl-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Scene Container */
+    .scene-viewport {
+      position: relative;
+      z-index: 15;
+      width: 100%;
+      max-width: 580px;
+      height: 100%;
+      max-height: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.96) translateY(12px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  visibility 0.7s;
+      pointer-events: none;
+    }
+
+    .scene.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Cinematic Elements */
+    .moon {
+      position: absolute;
+      top: 45px;
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fffef0, #fef4bf 60%, #e6cb7a 100%);
+      box-shadow: 0 0 35px rgba(255, 238, 168, 0.8), 0 0 75px rgba(251, 211, 100, 0.4);
+      z-index: 2;
+      animation: moonFloat 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes moonFloat {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-8px) scale(1.03); }
+    }
+
+    .spotlight-center {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 211, 100, 0.16) 0%, rgba(224, 33, 138, 0.08) 45%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      animation: pulseSpotlight 6s ease-in-out infinite;
+    }
+
+    @keyframes pulseSpotlight {
+      0%, 100% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.15); opacity: 0.95; }
+    }
+
+    /* Traditional Dandiya Cross Animation at Bottom */
+    .dandiya-ground-container {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      max-width: 400px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    /* Buttons */
+    .glow-btn {
+      position: relative;
+      background: linear-gradient(135deg, #fbd364 0%, #e0218a 55%, #9b1574 100%);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.8px;
+      padding: 14px 28px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(224, 33, 138, 0.6), 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+      overflow: hidden;
+      text-transform: uppercase;
+    }
+
+    .glow-btn::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.4) 50%, transparent 60%);
+      transform: rotate(25deg) translateY(-100%);
+      animation: btnShimmer 4s ease-in-out infinite;
+    }
+
+    @keyframes btnShimmer {
+      0% { transform: rotate(25deg) translateY(-120%); }
+      20%, 100% { transform: rotate(25deg) translateY(120%); }
+    }
+
+    .glow-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 35px rgba(251, 211, 100, 0.7), 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .glow-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .glow-btn-secondary {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(224, 33, 138, 0.35) 100%);
+      border: 1px solid rgba(251, 211, 100, 0.6);
+      box-shadow: 0 0 20px rgba(251, 211, 100, 0.25);
+    }
+
+    .glow-btn-secondary:hover {
+      background: linear-gradient(135deg, rgba(251, 211, 100, 0.3) 0%, rgba(224, 33, 138, 0.55) 100%);
+    }
+
+    /* Scene 1 Typography */
+    .scene1-text-box {
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      z-index: 10;
+    }
+
+    .poetic-line {
+      font-family: var(--font-heading);
+      font-size: 23px;
+      line-height: 1.45;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+      margin: 6px 0;
+    }
+
+    .poetic-line.highlight {
+      font-family: var(--font-script);
+      font-size: 38px;
+      color: var(--gold-primary);
+      text-shadow: 0 0 15px rgba(251, 211, 100, 0.6);
+      margin-top: 14px;
+    }
+
+    .poetic-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Scene 2: Boy's Secret Plan */
+    .boy-illustration-card {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(224, 33, 138, 0.3) 0%, rgba(42, 8, 69, 0.8) 70%);
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 0 30px rgba(251, 211, 100, 0.4), inset 0 0 20px rgba(224, 33, 138, 0.5);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      animation: floatBadge 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatBadge {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .pulse-heart-badge {
+      position: absolute;
+      bottom: -6px;
+      right: 14px;
+      font-size: 26px;
+      animation: heartbeat 1.2s infinite;
+      filter: drop-shadow(0 0 8px #ff2a70);
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.22); }
+      40% { transform: scale(1.05); }
+      60% { transform: scale(1.28); }
+    }
+
+    /* Scene 3: Envelope & Invitation Card */
+    .invitation-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      perspective: 1000px;
+      z-index: 15;
+    }
+
+    .envelope-box {
+      width: 320px;
+      height: 220px;
+      margin: 0 auto;
+      position: relative;
+      background: linear-gradient(135deg, #3d0c5a, #200533);
+      border-radius: 12px;
+      border: 2px solid var(--gold-primary);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(251, 211, 100, 0.3);
+      cursor: pointer;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .envelope-box:hover {
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .envelope-seal {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fbd364, #c9881d);
+      box-shadow: 0 0 20px rgba(251, 211, 100, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      border: 2px solid #fff;
+      animation: pulseSeal 2s infinite alternate;
+    }
+
+    @keyframes pulseSeal {
+      0% { transform: scale(1); box-shadow: 0 0 15px rgba(251, 211, 100, 0.6); }
+      100% { transform: scale(1.1); box-shadow: 0 0 30px rgba(251, 211, 100, 0.95); }
+    }
+
+    /* Royal Card for Scene 3 & Scene 7 */
+    .royal-card {
+      background: linear-gradient(145deg, rgba(38, 9, 61, 0.88), rgba(20, 3, 33, 0.94));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 2px solid var(--gold-primary);
+      border-radius: 20px;
+      padding: 30px 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(251, 211, 100, 0.25);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    /* Gold Ornate Corner Accents */
+    .gold-corner {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--gold-primary);
+      pointer-events: none;
+    }
+    .gold-corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+    .gold-corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+    .gold-corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+    .gold-corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+
+    .garba-question-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #fff2b2 40%, #fbd364 70%, #ff87c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 18px 0 12px;
+      text-shadow: 0 2px 20px rgba(251, 211, 100, 0.3);
+    }
+
+    /* Scene 4: Choice Buttons */
+    .choices-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      max-width: 340px;
+      margin-top: 18px;
+      z-index: 20;
+      position: relative;
+    }
+
+    .plea-bubble {
+      background: rgba(224, 33, 138, 0.28);
+      border: 1.5px dashed var(--gold-primary);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 18px;
+      padding: 12px 18px;
+      margin: 12px auto 6px;
+      max-width: 340px;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.45;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes shakeNo {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-9px) rotate(-3deg); }
+      40%, 80% { transform: translateX(9px) rotate(3deg); }
+    }
+
+    .shake-btn {
+      animation: shakeNo 0.42s ease !important;
+    }
+
+    /* Shy boy modal / reaction banner */
+    .reaction-banner {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px dashed var(--gold-primary);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 16px;
+      animation: popIn 0.4s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Scene 5: Garba Night Dance Canvas & Animation */
+    .dance-stage {
+      position: relative;
+      width: 100%;
+      height: 270px;
+      max-width: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .rangoli-floor {
+      position: absolute;
+      bottom: 10px;
+      width: 250px;
+      height: 90px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(224, 33, 138, 0.45) 0%, rgba(251, 211, 100, 0.3) 50%, transparent 75%);
+      transform: rotateX(60deg);
+      border: 1px dashed rgba(251, 211, 100, 0.5);
+      animation: rotateRangoli 20s linear infinite;
+    }
+
+    @keyframes rotateRangoli {
+      from { transform: rotateX(60deg) rotate(0deg); }
+      to { transform: rotateX(60deg) rotate(360deg); }
+    }
+
+    /* Animated Vector Dancers */
+    .dancers-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.5));
+    }
+
+    /* Scene 7: Invitation Details Grid */
+    .invite-detail-item {
+      display: flex;
+      align-items: flex-start;
+      text-align: left;
+      gap: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(251, 211, 100, 0.15);
+      margin-bottom: 8px;
+    }
+
+    .invite-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .invite-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .invite-val {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 500;
+      margin-top: 1px;
+    }
+
+    /* Scene 8: Swirling Heart Canvas */
+    .heart-swirl-container {
+      position: relative;
+      width: 280px;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Customization Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 1, 18, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(145deg, #2b0b4a, #150328);
+      border: 2px solid var(--gold-primary);
+      border-radius: 20px;
+      padding: 26px 20px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 35px rgba(251, 211, 100, 0.3);
+      transform: scale(0.92);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: scale(1);
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .input-label {
+      font-size: 12px;
+      color: var(--gold-primary);
+      margin-bottom: 4px;
+      display: block;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-field {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(251, 211, 100, 0.4);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .input-field:focus {
+      border-color: var(--gold-primary);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 10px rgba(251, 211, 100, 0.3);
+    }
+
+    /* Floating Toast */
+    .toast-popup {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(50px);
+      background: linear-gradient(135deg, #e0218a, #ff6b35);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 200;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Mobile Adaptations */
+    @media (max-height: 700px) {
+      .scene-viewport { padding: 16px 14px; }
+      .garba-question-text { font-size: 22px; margin: 12px 0 8px; }
+      .royal-card { padding: 20px 16px; }
+      .dance-stage { height: 210px; }
+      .poetic-line { font-size: 20px; }
+      .poetic-line.highlight { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Top Garland Fairy Lights (SVG) -->
+    <div class="fairy-lights-garland">
+      <svg class="fairy-wire" viewBox="0 0 1000 70" preserveAspectRatio="none">
+        <!-- Wire Catenaries -->
+        <path d="M0,15 Q125,48 250,15 Q375,48 500,15 Q625,48 750,15 Q875,48 1000,15" fill="none" stroke="rgba(251, 211, 100, 0.45)" stroke-width="1.8" />
+        <!-- Glowing Light Bulbs -->
+        <g id="fairy-bulbs"></g>
+      </svg>
+    </div>
+
+    <!-- Floating Top Bar Controls -->
+    <div class="top-controls">
+      <button id="customize-btn" class="ctrl-btn" title="Personalize Invitation Details" aria-label="Personalize">
+        <span>✏️</span>
+        <span style="display:none;" class="btn-text-resp">Personalize</span>
+      </button>
+      <button id="music-btn" class="ctrl-btn" title="Toggle Festive Sound (Web Audio)" aria-label="Toggle Sound">
+        <span id="music-icon">🔇</span>
+        <span id="music-label">Sound</span>
+      </button>
+    </div>
+
+    <!-- Background Particle Canvas (Stars, Petals, Fireworks, Sparkles) -->
+    <canvas id="ambient-canvas"></canvas>
+
+    <!-- Visual Backdrop Elements -->
+    <div class="moon"></div>
+    <div class="spotlight-center"></div>
+
+    <!-- MAIN SCENE CONTAINER -->
+    <main class="scene-viewport">
+
+      <!-- ================= SCENE 1: THE MAGICAL NAVRATRI NIGHT ================= -->
+      <section id="scene-1" class="scene active" aria-label="Scene 1: The Magical Navratri Night">
+        <div style="font-size: 36px; margin-bottom: 12px; filter: drop-shadow(0 0 12px #fbd364);">✨ 🌙 ✨</div>
+        <div class="scene1-text-box">
+          <p id="s1-l1" class="poetic-line">Tonight feels a little different…</p>
+          <p id="s1-l2" class="poetic-line">The music is playing…</p>
+          <p id="s1-l3" class="poetic-line">The lights are glowing…</p>
+          <p id="s1-l4" class="poetic-line highlight">But something is still missing.</p>
+        </div>
+
+        <button id="s1-next-btn" class="glow-btn" style="opacity: 0; transform: translateY(15px); pointer-events: none;">
+          DISCOVER THE SURPRISE ✨
+        </button>
+
+        <!-- Dandiya sticks illustration in foreground -->
+        <div class="dandiya-ground-container">
+          <svg viewBox="0 0 200 90" width="180" height="80">
+            <!-- Left Stick -->
+            <g transform="rotate(-30 80 70)">
+              <rect x="74" y="10" width="12" height="70" rx="6" fill="#fbd364" stroke="#ff6b35" stroke-width="2"/>
+              <line x1="74" y1="25" x2="86" y2="25" stroke="#e0218a" stroke-width="3"/>
+              <line x1="74" y1="40" x2="86" y2="40" stroke="#00d2be" stroke-width="3"/>
+              <line x1="74" y1="55" x2="86" y2="55" stroke="#e0218a" stroke-width="3"/>
+              <circle cx="80" cy="74" r="5" fill="#f7a01d"/>
+            </g>
+            <!-- Right Stick -->
+            <g transform="rotate(30 120 70)">
+              <rect x="114" y="10" width="12" height="70" rx="6" fill="#fbd364" stroke="#ff6b35" stroke-width="2"/>
+              <line x1="114" y1="25" x2="126" y2="25" stroke="#00d2be" stroke-width="3"/>
+              <line x1="114" y1="40" x2="126" y2="40" stroke="#e0218a" stroke-width="3"/>
+              <line x1="114" y1="55" x2="126" y2="55" stroke="#00d2be" stroke-width="3"/>
+              <circle cx="120" cy="74" r="5" fill="#f7a01d"/>
+            </g>
+            <circle cx="100" cy="48" r="8" fill="#fff" opacity="0.8" filter="drop-shadow(0 0 8px #fbd364)"/>
+          </svg>
+        </div>
+      </section>
+
+      <!-- ================= SCENE 2: THE BOY'S SECRET PLAN ================= -->
+      <section id="scene-2" class="scene" aria-label="Scene 2: The Boy's Secret Plan">
+        <!-- Elegant Illustrated Boy in Gujarati Kediyu -->
+        <div class="boy-illustration-card">
+          <svg viewBox="0 0 120 120" width="110" height="110">
+            <!-- Pagdi / Turban with kalgi feather & jewels -->
+            <path d="M35,38 Q60,18 85,38 Q90,48 80,50 Q60,46 40,50 Q30,48 35,38 Z" fill="#ff6b35"/>
+            <path d="M40,32 Q60,22 80,32" stroke="#fbd364" stroke-width="2" fill="none"/>
+            <circle cx="60" cy="30" r="4" fill="#fbd364"/>
+            <path d="M60,26 L63,16 L57,16 Z" fill="#00d2be"/>
+            <!-- Boy Face -->
+            <ellipse cx="60" cy="56" rx="19" ry="22" fill="#fed7aa"/>
+            <!-- Hair -->
+            <path d="M41,48 Q60,40 79,48 Q78,40 60,38 Q42,40 41,48 Z" fill="#2d1b11"/>
+            <!-- Smiling Eyes & Brows -->
+            <path d="M49,52 Q53,50 56,52" stroke="#2d1b11" stroke-width="1.8" fill="none"/>
+            <path d="M64,52 Q67,50 71,52" stroke="#2d1b11" stroke-width="1.8" fill="none"/>
+            <circle cx="52" cy="56" r="2.2" fill="#2d1b11"/>
+            <circle cx="68" cy="56" r="2.2" fill="#2d1b11"/>
+            <!-- Rosy Cheeks -->
+            <circle cx="48" cy="62" r="3.5" fill="#f43f5e" opacity="0.4"/>
+            <circle cx="72" cy="62" r="3.5" fill="#f43f5e" opacity="0.4"/>
+            <!-- Shy cute Smile -->
+            <path d="M54,64 Q60,70 66,64" stroke="#881337" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Kediyu Top (Frilled Gujarati Kurta with Bandhani dots) -->
+            <path d="M36,78 L46,72 L60,82 L74,72 L84,78 L90,115 L30,115 Z" fill="#e0218a"/>
+            <!-- Kediyu Mirrorwork trim -->
+            <path d="M46,72 L60,82 L74,72" stroke="#fbd364" stroke-width="3" fill="none"/>
+            <circle cx="60" cy="88" r="3" fill="#fff" stroke="#fbd364" stroke-width="1.5"/>
+            <circle cx="50" cy="98" r="2.5" fill="#fff" stroke="#fbd364" stroke-width="1.5"/>
+            <circle cx="70" cy="98" r="2.5" fill="#fff" stroke="#fbd364" stroke-width="1.5"/>
+            <!-- Traditional pearl necklace / mala -->
+            <path d="M48,74 Q60,86 72,74" stroke="#fef08a" stroke-width="2" stroke-dasharray="2,3" fill="none"/>
+          </svg>
+          <div class="pulse-heart-badge">❤️</div>
+        </div>
+
+        <div style="min-height: 140px; display: flex; flex-direction: column; justify-content: center;">
+          <p id="s2-l1" class="poetic-line">I have my outfit ready…</p>
+          <p id="s2-l2" class="poetic-line">My favourite Garba songs are ready…</p>
+          <p id="s2-l3" class="poetic-line" style="font-size: 21px; color: var(--gold-light);">
+            But I still have one very important question.
+          </p>
+          <p id="s2-l4" class="poetic-line" style="font-size: 23px; font-weight: 600; color: #ff75c3; margin-top: 10px;">
+            Will she say yes? 👀❤️
+          </p>
+        </div>
+
+        <button id="s2-next-btn" class="glow-btn" style="opacity: 0; transform: translateY(15px); pointer-events: none;">
+          LET'S ASK HER 💌
+        </button>
+      </section>
+
+      <!-- ================= SCENE 3: THE PERSONAL INVITATION ================= -->
+      <section id="scene-3" class="scene" aria-label="Scene 3: The Personal Invitation">
+        <div class="invitation-wrapper">
+          <div class="royal-card">
+            <!-- Decorative Corners -->
+            <div class="gold-corner tl"></div>
+            <div class="gold-corner tr"></div>
+            <div class="gold-corner bl"></div>
+            <div class="gold-corner br"></div>
+
+            <!-- Header Diya Ornament -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px;">
+              <span>🪔</span>
+              <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 3px; color: var(--gold-primary);">
+                SHREE NAVRATRI 2026
+              </span>
+              <span>🪔</span>
+            </div>
+
+            <div id="typewriter-container" style="min-height: 140px; text-align: center;">
+              <p id="s3-greeting" style="font-family: var(--font-script); font-size: 38px; color: var(--gold-primary); margin-bottom: 6px; text-shadow: 0 0 12px rgba(251,211,100,0.5);">
+                Hey, <span class="cfg-girlName">Beautiful</span>! ❤️
+              </p>
+              <div id="s3-body" style="font-size: 16px; line-height: 1.6; color: #fce7f3; margin-bottom: 12px; font-weight: 300;">
+                <!-- Will type in dynamically -->
+              </div>
+            </div>
+
+            <!-- Big Dramatic Question Typography -->
+            <div id="s3-big-q" style="opacity: 0; transform: scale(0.9); transition: all 0.8s ease;">
+              <h2 class="garba-question-text">
+                WILL YOU COME AND PLAY GARBA WITH ME TONIGHT? 💃❤️
+              </h2>
+              <p style="font-size: 14px; color: var(--gold-light); font-style: italic; letter-spacing: 0.3px;">
+                “Just you, me, the music, and a little bit of magic. ✨”
+              </p>
+
+              <button id="s3-next-btn" class="glow-btn" style="margin-top: 18px; width: 100%;">
+                GIVE MY ANSWER 💌
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SCENE 4: CHOOSE YOUR ANSWER ================= -->
+      <section id="scene-4" class="scene" aria-label="Scene 4: Choose Your Answer">
+        <div style="font-size: 32px; margin-bottom: 10px;">💃 🎶 🕺</div>
+        <h3 style="font-family: var(--font-heading); font-size: 24px; color: #fff; margin-bottom: 6px;">
+          What do you say, <span class="cfg-girlName" style="color: var(--gold-primary);">Beautiful</span>?
+        </h3>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.85); max-width: 330px;">
+          The dhol beats are calling, the lights are shining…
+        </p>
+
+        <!-- Dynamic Plea / Cute Excuse Bubble when No is clicked -->
+        <div id="no-plea-bubble" class="plea-bubble" style="display: none;">
+          <span id="no-plea-text">Are you sure? 🥺 Think again!</span>
+        </div>
+
+        <!-- Two Interactive Buttons -->
+        <div class="choices-grid">
+          <button id="choice-yes-btn" class="glow-btn" style="margin-top: 0; padding: 16px 24px; font-size: 16px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            YES! LET'S DANCE! 💃❤️
+          </button>
+          <button id="choice-no-btn" class="glow-btn glow-btn-secondary" style="margin-top: 0; padding: 14px 20px; font-size: 14px; transition: all 0.25s ease;">
+            NO, NOT TODAY 🙈
+          </button>
+        </div>
+
+        <!-- Yes Celebration Announcement (Pop-in) -->
+        <div id="yes-announcement-box" style="display: none; width: 100%; max-width: 360px;" class="reaction-banner">
+          <div style="font-size: 40px; margin-bottom: 4px; animation: heartbeat 1s infinite;">🎉❤️🪔</div>
+          <h2 id="yes-announcement-title" style="font-family: var(--font-heading); font-size: 26px; color: var(--gold-primary); font-weight: 700; text-shadow: 0 0 15px rgba(251,211,100,0.6);">
+            SHE SAID YES! ❤️🎉
+          </h2>
+          <p id="yes-announcement-text" style="font-size: 15px; color: #fff; margin: 8px 0 14px; font-weight: 400; line-height: 1.45;">
+            Looks like someone just found their favourite Garba partner.
+          </p>
+          <button id="yes-proceed-btn" class="glow-btn" style="margin-top: 0; width: 100%;">
+            ENTER OUR GARBA NIGHT 🎶💃
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= SCENE 5: OUR GARBA NIGHT ================= -->
+      <section id="scene-5" class="scene" aria-label="Scene 5: Our Garba Night">
+        <h3 style="font-family: var(--font-display); font-size: 14px; letter-spacing: 3px; color: var(--gold-primary); margin-bottom: 2px;">
+          OUR GARBA NIGHT
+        </h3>
+        <p style="font-family: var(--font-script); font-size: 30px; color: #ff75c3; margin-bottom: 8px;">
+          Two hearts, one rhythm ❤️
+        </p>
+
+        <!-- Garba Stage with Stylized Animated Dancers -->
+        <div class="dance-stage">
+          <div class="rangoli-floor"></div>
+
+          <!-- Animated SVG Dancers (Boy in Kediyu & Girl in Chaniya Choli playing Dandiya) -->
+          <svg class="dancers-svg" viewBox="0 0 340 240">
+            <defs>
+              <radialGradient id="garbaGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fbd364" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#e0218a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Center Sparkle Aura -->
+            <circle cx="170" cy="120" r="75" fill="url(#garbaGlow)"/>
+
+            <!-- Hanging festoon lamps -->
+            <circle cx="40" cy="20" r="6" fill="#fbd364" filter="drop-shadow(0 0 8px #fbd364)"/>
+            <circle cx="170" cy="15" r="7" fill="#ff75c3" filter="drop-shadow(0 0 10px #ff75c3)"/>
+            <circle cx="300" cy="20" r="6" fill="#00d2be" filter="drop-shadow(0 0 8px #00d2be)"/>
+
+            <!-- BOY DANCER (Left) -->
+            <g id="boy-dancer" transform="translate(105, 125)">
+              <!-- Feet with ghungroo bells -->
+              <ellipse cx="-15" cy="85" rx="8" ry="4" fill="#a16207"/>
+              <ellipse cx="5" cy="85" rx="8" ry="4" fill="#a16207"/>
+              <!-- Flared Kafni Dhoti -->
+              <path d="M-22,35 C-35,60 -25,82 -15,85 C-5,85 -8,55 0,55 C8,55 5,85 15,85 C25,82 25,60 18,35 Z" fill="#f59e0b"/>
+              <!-- Kediyu Top (Flared frills in magenta/orange) -->
+              <path d="M-22,10 L-26,45 Q0,55 26,45 L22,10 Z" fill="#e0218a"/>
+              <!-- Embroidery trim -->
+              <path d="M-26,45 Q0,55 26,45" stroke="#fbd364" stroke-width="3" fill="none"/>
+              <circle cx="0" cy="28" r="3" fill="#fff"/>
+              <circle cx="-10" cy="35" r="2.5" fill="#fff"/>
+              <circle cx="10" cy="35" r="2.5" fill="#fff"/>
+              <!-- Neck & Face -->
+              <ellipse cx="0" cy="-6" rx="11" ry="13" fill="#fed7aa"/>
+              <!-- Pagdi / Turban with Kalgi -->
+              <path d="M-13,-18 Q0,-32 15,-18 Q16,-10 0,-12 Q-14,-10 -13,-18 Z" fill="#ff6b35"/>
+              <circle cx="0" cy="-24" r="3" fill="#fbd364"/>
+              <line x1="0" y1="-27" x2="0" y2="-34" stroke="#00d2be" stroke-width="2"/>
+              <!-- Smiling Face Profile -->
+              <circle cx="4" cy="-7" r="1.8" fill="#2d1b11"/>
+              <path d="M3,-2 Q7,1 9,-2" stroke="#881337" stroke-width="1.5" fill="none"/>
+              <!-- Boy's Dandiya Stick (animated via CSS/JS) -->
+              <g id="boy-dandiya" transform="rotate(35 15 15)">
+                <line x1="0" y1="20" x2="48" y2="-15" stroke="#fbd364" stroke-width="5" stroke-linecap="round"/>
+                <line x1="12" y1="12" x2="16" y2="9" stroke="#e0218a" stroke-width="6"/>
+                <line x1="28" y1="0" x2="32" y2="-3" stroke="#00d2be" stroke-width="6"/>
+                <circle cx="48" cy="-15" r="4" fill="#f7a01d"/>
+              </g>
+            </g>
+
+            <!-- GIRL DANCER (Right) -->
+            <g id="girl-dancer" transform="translate(235, 125)">
+              <!-- Feet with pajeb/anklets -->
+              <ellipse cx="-8" cy="85" rx="8" ry="4" fill="#fda4af"/>
+              <ellipse cx="12" cy="85" rx="8" ry="4" fill="#fda4af"/>
+              <!-- Flared Chaniya Skirt with heavy border -->
+              <path d="M-18,32 C-45,65 -40,84 -15,86 C0,87 15,87 35,85 C55,83 40,65 18,32 Z" fill="#7c3aed"/>
+              <!-- Gold & Mirror Zari border along hem -->
+              <path d="M-40,84 Q0,92 42,84" stroke="#fbd364" stroke-width="5" fill="none"/>
+              <path d="M-36,78 Q0,86 38,78" stroke="#ff75c3" stroke-width="2" stroke-dasharray="3,3" fill="none"/>
+              <!-- Choli Top -->
+              <path d="M-15,10 L-18,32 Q0,35 18,32 L15,10 Z" fill="#e0218a"/>
+              <!-- Flowing Translucent Dupatta -->
+              <path d="M-18,12 Q-38,40 -20,80 Q-5,65 -10,35 Z" fill="rgba(251, 211, 100, 0.45)"/>
+              <!-- Face & Hair Bun with Gajra -->
+              <ellipse cx="0" cy="-6" rx="10" ry="12" fill="#fed7aa"/>
+              <circle cx="8" cy="-12" r="7" fill="#1e110a"/>
+              <!-- White Gajra flowers in hair -->
+              <circle cx="12" cy="-15" r="2.5" fill="#fff"/>
+              <circle cx="15" cy="-12" r="2.5" fill="#fff"/>
+              <circle cx="13" cy="-9" r="2.5" fill="#fff"/>
+              <!-- Bindi & Maang Tikka -->
+              <circle cx="-3" cy="-9" r="1.5" fill="#e11d48"/>
+              <line x1="-3" y1="-17" x2="-3" y2="-12" stroke="#fbd364" stroke-width="1.2"/>
+              <!-- Smiling Face Profile -->
+              <circle cx="-4" cy="-7" r="1.8" fill="#2d1b11"/>
+              <path d="M-7,-2 Q-4,1 -2,-2" stroke="#881337" stroke-width="1.5" fill="none"/>
+              <!-- Girl's Dandiya Stick -->
+              <g id="girl-dandiya" transform="rotate(-35 -15 15)">
+                <line x1="0" y1="20" x2="-48" y2="-15" stroke="#fbd364" stroke-width="5" stroke-linecap="round"/>
+                <line x1="-12" y1="12" x2="-16" y2="9" stroke="#00d2be" stroke-width="6"/>
+                <line x1="-28" y1="0" x2="-32" y2="-3" stroke="#e0218a" stroke-width="6"/>
+                <circle cx="-48" cy="-15" r="4" fill="#f7a01d"/>
+              </g>
+            </g>
+
+            <!-- Sparkle Clack Point between Sticks -->
+            <g id="dandiya-clack-sparkle" transform="translate(170, 95)">
+              <polygon points="0,-12 3,-3 12,0 3,3 0,12 -3,3 -12,0 -3,-3" fill="#fff" filter="drop-shadow(0 0 10px #fbd364)"/>
+              <circle cx="0" cy="0" r="5" fill="#fbd364"/>
+            </g>
+          </svg>
+        </div>
+
+        <p style="font-size: 15px; color: #fdf2f8; max-width: 380px; line-height: 1.5; margin-bottom: 14px;">
+          Around the sacred garbi, the crowd dissolves into a blur of swirling colours, mirrorwork, and laughter.
+        </p>
+
+        <button id="s5-next-btn" class="glow-btn">
+          A SWEET LITTLE MOMENT ❤️
+        </button>
+      </section>
+
+      <!-- ================= SCENE 6: THE SWEET LITTLE MOMENT ================= -->
+      <section id="scene-6" class="scene" aria-label="Scene 6: The Sweet Little Moment">
+        <!-- Moonlit Glow Backdrop -->
+        <div style="font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.8));">
+          🌙✨
+        </div>
+
+        <div style="min-height: 190px; display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 440px;">
+          <p id="s6-l1" class="poetic-line">Between all the music, lights, and celebrations…</p>
+          <p id="s6-l2" class="poetic-line">I think my favourite part might simply be…</p>
+          <p id="s6-l3" class="poetic-line highlight" style="font-size: 34px;">
+            Getting to spend the evening with you. ❤️
+          </p>
+          <p id="s6-l4" class="poetic-line" style="font-size: 20px; color: var(--gold-light); margin-top: 10px; font-weight: 500;">
+            “So, save me one dance?”
+          </p>
+        </div>
+
+        <div style="margin: 10px 0;">
+          <span style="font-size: 34px; display: inline-block; animation: heartbeat 1.2s infinite; filter: drop-shadow(0 0 15px #e0218a);">
+            💖
+          </span>
+        </div>
+
+        <button id="s6-next-btn" class="glow-btn" style="opacity: 0; transform: translateY(15px); pointer-events: none;">
+          VIEW OUR OFFICIAL INVITATION ✨
+        </button>
+      </section>
+
+      <!-- ================= SCENE 7: THE GARBA INVITATION CARD ================= -->
+      <section id="scene-7" class="scene" aria-label="Scene 7: The Garba Invitation Card">
+        <div class="royal-card" style="max-width: 420px; text-align: left; padding: 24px 20px;">
+          <div class="gold-corner tl"></div>
+          <div class="gold-corner tr"></div>
+          <div class="gold-corner bl"></div>
+          <div class="gold-corner br"></div>
+
+          <!-- Card Header -->
+          <div style="text-align: center; border-bottom: 1px dashed rgba(251,211,100,0.4); padding-bottom: 12px; margin-bottom: 14px;">
+            <p style="font-family: var(--font-display); font-size: 13px; letter-spacing: 2.5px; color: var(--gold-primary); font-weight: 700;">
+              NAVRATRI NIGHT INVITATION
+            </p>
+            <p style="font-size: 12px; color: var(--pink-soft); margin-top: 2px;">
+              An Evening Written In The Stars ✨
+            </p>
+          </div>
+
+          <!-- Invitation Message Body -->
+          <div style="margin-bottom: 16px;">
+            <p style="font-family: var(--font-script); font-size: 30px; color: var(--gold-light); margin-bottom: 4px;">
+              Dear <span class="cfg-girlName">Beautiful</span>,
+            </p>
+            <p style="font-size: 13.5px; line-height: 1.55; color: #fdf2f8;">
+              You are officially invited to make this Navratri night a little more memorable. Dress up, bring your brightest smile, and let's make some beautiful memories on the Garba floor.
+            </p>
+          </div>
+
+          <!-- Structured Details Grid -->
+          <div style="margin-bottom: 16px;">
+            <div class="invite-detail-item">
+              <span class="invite-icon">❤️</span>
+              <div>
+                <div class="invite-label">Your Garba Partner</div>
+                <div class="invite-val"><span class="cfg-boyName">Me</span> ❤️</div>
+              </div>
+            </div>
+
+            <div class="invite-detail-item">
+              <span class="invite-icon">💃</span>
+              <div>
+                <div class="invite-label">The Plan</div>
+                <div class="invite-val">Garba, Dandiya & Endless Smiles</div>
+              </div>
+            </div>
+
+            <div class="invite-detail-item">
+              <span class="invite-icon">✨</span>
+              <div>
+                <div class="invite-label">The Dress Code</div>
+                <div class="invite-val">Your Most Beautiful Traditional Outfit</div>
+              </div>
+            </div>
+
+            <div class="invite-detail-item">
+              <span class="invite-icon">📍</span>
+              <div>
+                <div class="invite-label">When & Where</div>
+                <div class="invite-val">
+                  <span class="cfg-date">Tonight</span> at <span class="cfg-time">8:00 PM</span><br/>
+                  <span style="font-size: 12px; color: var(--gold-primary);" class="cfg-venue">Our Garba Ground</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="invite-detail-item" style="border-color: rgba(224, 33, 138, 0.4); background: rgba(224, 33, 138, 0.1);">
+              <span class="invite-icon">🌟</span>
+              <div>
+                <div class="invite-label" style="color: var(--pink-soft);">The Most Important Detail</div>
+                <div class="invite-val" style="color: #fff; font-weight: 600;">You being there. ❤️</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Share / Save Action Button -->
+          <button id="save-plan-btn" class="glow-btn" style="width: 100%; margin-top: 4px; padding: 13px;">
+            SAVE OUR GARBA PLAN ✨
+          </button>
+        </div>
+
+        <button id="s7-next-btn" class="glow-btn glow-btn-secondary" style="margin-top: 14px; font-size: 13px; padding: 10px 22px;">
+          THE FINAL REVEAL 🌙❤️
+        </button>
+      </section>
+
+      <!-- ================= SCENE 8: THE FINAL REVEAL ================= -->
+      <section id="scene-8" class="scene" aria-label="Scene 8: The Final Reveal">
+        <!-- Floating Canvas for Golden Particle Heart Formation -->
+        <div class="heart-swirl-container">
+          <canvas id="heart-canvas" width="280" height="240"></canvas>
+        </div>
+
+        <div style="min-height: 170px; display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 440px;">
+          <p id="s8-l1" class="poetic-line">Some invitations are ordinary…</p>
+          <p id="s8-l2" class="poetic-line">But some become beautiful memories.</p>
+
+          <h2 id="s8-l3" class="poetic-line highlight" style="font-size: 28px; line-height: 1.35; margin: 14px 0 6px;">
+            HAPPY NAVRATRI, MY FAVOURITE GARBA PARTNER! ❤️💃
+          </h2>
+
+          <p id="s8-l4" class="poetic-line" style="font-size: 17px; color: var(--gold-light); font-weight: 400;">
+            Now tell me… shall we make this night unforgettable? ✨
+          </p>
+        </div>
+
+        <!-- Replay Button without reloading -->
+        <button id="replay-btn" class="glow-btn" style="opacity: 0; transform: translateY(15px); pointer-events: none; margin-top: 16px;">
+          EXPERIENCE THE MAGIC AGAIN ↻
+        </button>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= CUSTOMIZE POPUP MODAL ================= -->
+  <div id="customize-modal" class="modal-backdrop">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h4 style="font-family: var(--font-heading); font-size: 18px; color: var(--gold-primary);">
+          Personalize Invitation ✨
+        </h4>
+        <button id="modal-close-btn" style="background: none; border: none; color: #fff; font-size: 22px; cursor: pointer;">✕</button>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="input-boy-name">Your Name (The Boy)</label>
+        <input type="text" id="input-boy-name" class="input-field" placeholder="e.g. Aarav, Rahul, Me" />
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="input-girl-name">Her Name (The Girl)</label>
+        <input type="text" id="input-girl-name" class="input-field" placeholder="e.g. Diya, Priya, Beautiful" />
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <div class="input-group" style="flex: 1;">
+          <label class="input-label" for="input-date">Date</label>
+          <input type="text" id="input-date" class="input-field" placeholder="e.g. Tonight, Oct 11" />
+        </div>
+        <div class="input-group" style="flex: 1;">
+          <label class="input-label" for="input-time">Time</label>
+          <input type="text" id="input-time" class="input-field" placeholder="e.g. 8:00 PM" />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="input-venue">Venue / Garba Ground</label>
+        <input type="text" id="input-venue" class="input-field" placeholder="e.g. Our Garba Ground, United Way" />
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button id="modal-save-btn" class="glow-btn" style="flex: 1; margin-top: 0; padding: 12px;">
+          APPLY & UPDATE ❤️
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notification -->
+  <div id="toast" class="toast-popup">
+    <span>✨</span>
+    <span id="toast-msg">Invitation copied to clipboard!</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC & ANIMATION ENGINES -->
+  <script>
+    /* =====================================================================
+       1. GLOBAL CONFIGURATION OBJECT
+       ===================================================================== */
+    const CONFIG = {
+      boyName: "Your Name",
+      girlName: "Beautiful",
+      date: "Tonight",
+      time: "8:00 PM",
+      venue: "Our Garba Ground",
+      finalMessage: "Will you be my Garba partner? ❤️"
+    };
+
+    // Load persisted personalization if available in localStorage
+    try {
+      const savedCfg = localStorage.getItem('garba_invite_config');
+      if (savedCfg) {
+        Object.assign(CONFIG, JSON.parse(savedCfg));
+      }
+    } catch(e) {}
+
+    function updateDOMWithConfig() {
+      document.querySelectorAll('.cfg-girlName').forEach(el => el.textContent = CONFIG.girlName || "Beautiful");
+      document.querySelectorAll('.cfg-boyName').forEach(el => el.textContent = CONFIG.boyName || "Me");
+      document.querySelectorAll('.cfg-date').forEach(el => el.textContent = CONFIG.date || "Tonight");
+      document.querySelectorAll('.cfg-time').forEach(el => el.textContent = CONFIG.time || "8:00 PM");
+      document.querySelectorAll('.cfg-venue').forEach(el => el.textContent = CONFIG.venue || "Our Garba Ground");
+    }
+
+    /* =====================================================================
+       2. FESTIVE WEB AUDIO SYNTHESIZER (No external mp3s, 100% reliable)
+       ===================================================================== */
+    class FestiveAudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.timer = null;
+        this.step = 0;
+        // Traditional Raag Bhupali / Khamaj Navratri melodic sequence (Frequencies in Hz)
+        // Sa, Re, Ga, Pa, Dha, Sa' (D, E, F#, A, B, D')
+        this.melody = [
+          293.66, 329.63, 369.99, 440.00, 493.88, 587.33, 493.88, 440.00,
+          369.99, 440.00, 493.88, 587.33, 659.25, 587.33, 493.88, 440.00
+        ];
+        this.tempoMs = 240; // Festive energetic Garba rhythm
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContext();
+        }
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggle() {
+        this.init();
+        if (this.isPlaying) {
+          this.stop();
+          return false;
+        } else {
+          this.start();
+          return true;
+        }
+      }
+
+      start() {
+        if (this.isPlaying) return;
+        this.isPlaying = true;
+        this.scheduleLoop();
+      }
+
+      stop() {
+        this.isPlaying = false;
+        if (this.timer) {
+          clearTimeout(this.timer);
+          this.timer = null;
+        }
+      }
+
+      scheduleLoop() {
+        if (!this.isPlaying || !this.ctx) return;
+        this.playBeat(this.step);
+        this.step = (this.step + 1) % this.melody.length;
+        this.timer = setTimeout(() => this.scheduleLoop(), this.tempoMs);
+      }
+
+      playBeat(stepIdx) {
+        const now = this.ctx.currentTime;
+        const noteFreq = this.melody[stepIdx];
+
+        // 1. Synthesize gentle Sitar / Taanpura Pluck
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = (stepIdx % 4 === 0) ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(noteFreq, now);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.exponentialRampToValueAtTime(0.12, now + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+
+        // 2. Synthesize Dholak Low Bass beat on 1 and 3
+        if (stepIdx % 4 === 0) {
+          const bassOsc = this.ctx.createOscillator();
+          const bassGain = this.ctx.createGain();
+          bassOsc.type = 'sine';
+          bassOsc.frequency.setValueAtTime(95, now);
+          bassOsc.frequency.exponentialRampToValueAtTime(45, now + 0.18);
+
+          bassGain.gain.setValueAtTime(0.25, now);
+          bassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+          bassOsc.connect(bassGain);
+          bassGain.connect(this.ctx.destination);
+          bassOsc.start(now);
+          bassOsc.stop(now + 0.25);
+        }
+
+        // 3. Gentle Ghungroo / Shaker sound on 2 and 4
+        if (stepIdx % 2 === 1) {
+          this.playShaker(now);
+        }
+      }
+
+      playShaker(time) {
+        const bufferSize = this.ctx.sampleRate * 0.05;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.setValueAtTime(4500, time);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.035, time);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.045);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        noise.start(time);
+      }
+
+      // Crisp Dandiya Stick Clack Sound Effect
+      playDandiyaClack() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1400, now);
+        osc.frequency.exponentialRampToValueAtTime(600, now + 0.04);
+
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.06);
+      }
+
+      // Playful cute pleading sound effect when 'No' is clicked
+      playPleadingSound() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(240, now + 0.16);
+
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.2);
+      }
+
+      // Confetti celebratory chime
+      playCelebrationChime() {
+        if (!this.ctx) return;
+        const chords = [587.33, 739.99, 880, 1174.66];
+        chords.forEach((f, i) => {
+          setTimeout(() => {
+            if (!this.ctx) return;
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, now);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.65);
+          }, i * 90);
+        });
+      }
+    }
+
+    const audio = new FestiveAudioEngine();
+
+    /* =====================================================================
+       3. AMBIENT PARTICLES CANVAS ENGINE (Stars, Rose Petals, Confetti)
+       ===================================================================== */
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    let height = 0;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Particle Collections
+    const stars = [];
+    const petals = [];
+    const celebrationParticles = [];
+
+    // Initialize Stars
+    const numStars = 65;
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * (window.innerHeight * 0.75),
+        radius: Math.random() * 1.6 + 0.5,
+        alpha: Math.random() * 0.8 + 0.2,
+        twinkleSpeed: Math.random() * 0.03 + 0.01
+      });
+    }
+
+    // Initialize Rose Petals
+    const numPetals = 22;
+    for (let i = 0; i < numPetals; i++) {
+      petals.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: Math.random() * 9 + 7,
+        speedY: Math.random() * 1.1 + 0.6,
+        speedX: Math.random() * 0.8 - 0.4,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.03,
+        color: Math.random() > 0.4 ? 'rgba(235, 59, 90, ' : 'rgba(255, 117, 195, ',
+        alpha: Math.random() * 0.5 + 0.4
+      });
+    }
+
+    // Trigger Burst of Confetti & Golden Sparkles
+    function spawnCelebrationBurst(count = 90) {
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const colors = ['#fbd364', '#e0218a', '#ff6b35', '#00d2be', '#ffffff', '#ff75c3'];
+
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 10 + 3;
+        celebrationParticles.push({
+          x: centerX + (Math.random() - 0.5) * 80,
+          y: centerY + (Math.random() - 0.5) * 80,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity - 2.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: Math.random() * 7 + 4,
+          life: 1,
+          decay: Math.random() * 0.015 + 0.01,
+          isHeart: Math.random() > 0.6
+        });
+      }
+    }
+
+    // Main Canvas Render Loop
+    function renderAmbient() {
+      ctx.clearRect(0, 0, width, height);
+
+      // 1. Draw Twinkling Stars
+      stars.forEach(s => {
+        s.alpha += s.twinkleSpeed;
+        if (s.alpha > 1 || s.alpha < 0.2) s.twinkleSpeed = -s.twinkleSpeed;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 245, 195, ${Math.max(0.1, s.alpha)})`;
+        ctx.fill();
+      });
+
+      // 2. Draw Floating Rose Petals
+      petals.forEach(p => {
+        p.y += p.speedY;
+        p.x += Math.sin(p.y * 0.015) * 0.8 + p.speedX;
+        p.rotation += p.rotSpeed;
+
+        if (p.y > height + 20) {
+          p.y = -20;
+          p.x = Math.random() * width;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size, p.size * 0.6, 0, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + p.alpha + ')';
+        ctx.shadowColor = '#e0218a';
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // 3. Draw Celebration Burst Particles (Confetti & Hearts)
+      for (let i = celebrationParticles.length - 1; i >= 0; i--) {
+        const cp = celebrationParticles[i];
+        cp.x += cp.vx;
+        cp.y += cp.vy;
+        cp.vy += 0.22; // gravity
+        cp.vx *= 0.98;
+        cp.life -= cp.decay;
+
+        if (cp.life <= 0) {
+          celebrationParticles.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, cp.life);
+        ctx.fillStyle = cp.color;
+        if (cp.isHeart) {
+          ctx.font = `${cp.size * 2}px sans-serif`;
+          ctx.fillText('❤️', cp.x, cp.y);
+        } else {
+          ctx.beginPath();
+          ctx.arc(cp.x, cp.y, cp.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+
+      requestAnimationFrame(renderAmbient);
+    }
+    renderAmbient();
+
+    /* =====================================================================
+       4. SCENE 8: SWIRLING HEART CANVAS ENGINE
+       ===================================================================== */
+    const heartCanvas = document.getElementById('heart-canvas');
+    const hCtx = heartCanvas.getContext('2d');
+    let heartAnimId = null;
+    let heartPoints = [];
+    let heartProgress = 0;
+
+    // Parametric Heart Formula
+    function getHeartCoordinates(t, scale = 7) {
+      const x = 16 * Math.pow(Math.sin(t), 3);
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+      return {
+        x: heartCanvas.width / 2 + x * scale,
+        y: heartCanvas.height / 2 + y * scale + 8
+      };
+    }
+
+    function initHeartParticles() {
+      heartPoints = [];
+      const totalPoints = 140;
+      for (let i = 0; i < totalPoints; i++) {
+        const t = (i / totalPoints) * Math.PI * 2;
+        const target = getHeartCoordinates(t, 6.8);
+        const startAngle = Math.random() * Math.PI * 2;
+        const startRadius = Math.random() * 120 + 80;
+
+        heartPoints.push({
+          targetX: target.x,
+          targetY: target.y,
+          currentX: heartCanvas.width / 2 + Math.cos(startAngle) * startRadius,
+          currentY: heartCanvas.height / 2 + Math.sin(startAngle) * startRadius,
+          size: Math.random() * 3 + 2,
+          color: Math.random() > 0.4 ? '#fbd364' : '#ff75c3',
+          sparkle: Math.random() * Math.PI
+        });
+      }
+      heartProgress = 0;
+    }
+
+    function animateHeartSwirl() {
+      hCtx.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
+      heartProgress = Math.min(1, heartProgress + 0.015);
+
+      heartPoints.forEach(p => {
+        p.currentX += (p.targetX - p.currentX) * 0.055;
+        p.currentY += (p.targetY - p.currentY) * 0.055;
+        p.sparkle += 0.08;
+
+        const pulseSize = p.size + Math.sin(p.sparkle) * 1.2;
+
+        hCtx.save();
+        hCtx.beginPath();
+        hCtx.arc(p.currentX, p.currentY, Math.max(1, pulseSize), 0, Math.PI * 2);
+        hCtx.fillStyle = p.color;
+        hCtx.shadowColor = p.color;
+        hCtx.shadowBlur = 10;
+        hCtx.fill();
+        hCtx.restore();
+      });
+
+      // Glowing heart center aura once particles converge
+      if (heartProgress > 0.5) {
+        hCtx.save();
+        hCtx.font = "42px sans-serif";
+        hCtx.textAlign = "center";
+        hCtx.textBaseline = "middle";
+        hCtx.shadowColor = "#ff2a70";
+        hCtx.shadowBlur = 20;
+        hCtx.globalAlpha = (heartProgress - 0.5) * 2;
+        hCtx.fillText("❤️", heartCanvas.width / 2, heartCanvas.height / 2 + 5);
+        hCtx.restore();
+      }
+
+      heartAnimId = requestAnimationFrame(animateHeartSwirl);
+    }
+
+    /* =====================================================================
+       5. FAIRY LIGHTS BULBS POPULATOR
+       ===================================================================== */
+    function populateFairyBulbs() {
+      const container = document.getElementById('fairy-bulbs');
+      container.innerHTML = '';
+      const numBulbs = 25;
+      const colors = ['#fbd364', '#ff75c3', '#00d2be', '#ff6b35', '#ffffff'];
+
+      for (let i = 0; i <= numBulbs; i++) {
+        const ratio = i / numBulbs;
+        const x = ratio * 1000;
+        // Approximate catenary curve y
+        const cycle = (ratio * 4) % 1;
+        const y = 15 + Math.sin(cycle * Math.PI) * 33;
+
+        const color = colors[i % colors.length];
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+        // Socket
+        const socket = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        socket.setAttribute('x', x - 2);
+        socket.setAttribute('y', y - 4);
+        socket.setAttribute('width', 4);
+        socket.setAttribute('height', 5);
+        socket.setAttribute('fill', '#4a154b');
+
+        // Bulb
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y + 4);
+        circle.setAttribute('r', 4.5);
+        circle.setAttribute('fill', color);
+        circle.setAttribute('filter', `drop-shadow(0 0 6px ${color})`);
+
+        g.appendChild(socket);
+        g.appendChild(circle);
+        container.appendChild(g);
+      }
+    }
+    populateFairyBulbs();
+
+    /* =====================================================================
+       6. SCENE MANAGEMENT & TYPEWRITER ORCHESTRATION
+       ===================================================================== */
+    let currentScene = 1;
+
+    function goToScene(sceneNumber) {
+      const currentEl = document.getElementById(`scene-${currentScene}`);
+      const nextEl = document.getElementById(`scene-${sceneNumber}`);
+
+      if (currentEl) currentEl.classList.remove('active');
+      if (nextEl) nextEl.classList.add('active');
+      currentScene = sceneNumber;
+
+      // Scene-specific initializations
+      if (sceneNumber === 1) startScene1Sequence();
+      if (sceneNumber === 2) startScene2Sequence();
+      if (sceneNumber === 3) startScene3Sequence();
+      if (sceneNumber === 5) startScene5DandiyaBeat();
+      if (sceneNumber === 6) startScene6Sequence();
+      if (sceneNumber === 8) startScene8Sequence();
+    }
+
+    // SCENE 1 Text Sequencing
+    function startScene1Sequence() {
+      const l1 = document.getElementById('s1-l1');
+      const l2 = document.getElementById('s1-l2');
+      const l3 = document.getElementById('s1-l3');
+      const l4 = document.getElementById('s1-l4');
+      const btn = document.getElementById('s1-next-btn');
+
+      [l1, l2, l3, l4].forEach(l => l.classList.remove('visible'));
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateY(15px)';
+      btn.style.pointerEvents = 'none';
+
+      setTimeout(() => l1.classList.add('visible'), 500);
+      setTimeout(() => l2.classList.add('visible'), 2100);
+      setTimeout(() => l3.classList.add('visible'), 3700);
+      setTimeout(() => l4.classList.add('visible'), 5300);
+      setTimeout(() => {
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateY(0)';
+        btn.style.pointerEvents = 'auto';
+      }, 6600);
+    }
+
+    // SCENE 2 Text Sequencing
+    function startScene2Sequence() {
+      const l1 = document.getElementById('s2-l1');
+      const l2 = document.getElementById('s2-l2');
+      const l3 = document.getElementById('s2-l3');
+      const l4 = document.getElementById('s2-l4');
+      const btn = document.getElementById('s2-next-btn');
+
+      [l1, l2, l3, l4].forEach(l => l.classList.remove('visible'));
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateY(15px)';
+      btn.style.pointerEvents = 'none';
+
+      setTimeout(() => l1.classList.add('visible'), 400);
+      setTimeout(() => l2.classList.add('visible'), 1800);
+      setTimeout(() => l3.classList.add('visible'), 3200);
+      setTimeout(() => l4.classList.add('visible'), 4600);
+      setTimeout(() => {
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateY(0)';
+        btn.style.pointerEvents = 'auto';
+      }, 5500);
+    }
+
+    // SCENE 3 Typewriter Sequence
+    function startScene3Sequence() {
+      const bodyEl = document.getElementById('s3-body');
+      const bigQ = document.getElementById('s3-big-q');
+      bodyEl.innerHTML = '';
+      bigQ.style.opacity = '0';
+      bigQ.style.transform = 'scale(0.9)';
+
+      const paragraphs = [
+        "There's something I've been wanting to ask you…",
+        "Navratri nights are beautiful…",
+        "Garba music makes everything magical…",
+        "But I think this night would be even more special with you."
+      ];
+
+      let currentParaIdx = 0;
+
+      function typeNextParagraph() {
+        if (currentParaIdx >= paragraphs.length) {
+          setTimeout(() => {
+            bigQ.style.opacity = '1';
+            bigQ.style.transform = 'scale(1)';
+            audio.playDandiyaClack();
+          }, 600);
+          return;
+        }
+
+        const p = document.createElement('p');
+        p.style.marginBottom = '6px';
+        p.style.opacity = '0';
+        p.style.transform = 'translateY(8px)';
+        p.style.transition = 'all 0.5s ease';
+        p.textContent = paragraphs[currentParaIdx];
+        bodyEl.appendChild(p);
+
+        setTimeout(() => {
+          p.style.opacity = '1';
+          p.style.transform = 'translateY(0)';
+        }, 50);
+
+        currentParaIdx++;
+        setTimeout(typeNextParagraph, 1200);
+      }
+
+      setTimeout(typeNextParagraph, 600);
+    }
+
+    // SCENE 5 Dancing Rhythm & Dandiya Clacking
+    let dandiyaInterval = null;
+    function startScene5DandiyaBeat() {
+      const boyDandiya = document.getElementById('boy-dandiya');
+      const girlDandiya = document.getElementById('girl-dandiya');
+      const clackSparkle = document.getElementById('dandiya-clack-sparkle');
+      const boyDancer = document.getElementById('boy-dancer');
+      const girlDancer = document.getElementById('girl-dancer');
+
+      let swing = false;
+      if (dandiyaInterval) clearInterval(dandiyaInterval);
+
+      dandiyaInterval = setInterval(() => {
+        swing = !swing;
+
+        // Animate Dandiya strikes
+        if (swing) {
+          boyDandiya.setAttribute('transform', 'rotate(45 15 15)');
+          girlDandiya.setAttribute('transform', 'rotate(-45 -15 15)');
+          boyDancer.setAttribute('transform', 'translate(112, 122)');
+          girlDancer.setAttribute('transform', 'translate(228, 122)');
+
+          // Sparkle burst at contact point
+          clackSparkle.style.opacity = '1';
+          clackSparkle.setAttribute('transform', 'translate(170, 95) scale(1.4)');
+
+          // Audio clack
+          audio.playDandiyaClack();
+        } else {
+          boyDandiya.setAttribute('transform', 'rotate(25 15 15)');
+          girlDandiya.setAttribute('transform', 'rotate(-25 -15 15)');
+          boyDancer.setAttribute('transform', 'translate(100, 126)');
+          girlDancer.setAttribute('transform', 'translate(240, 126)');
+
+          clackSparkle.style.opacity = '0';
+          clackSparkle.setAttribute('transform', 'translate(170, 95) scale(0.6)');
+        }
+      }, 550);
+    }
+
+    // SCENE 6 Sequence
+    function startScene6Sequence() {
+      const l1 = document.getElementById('s6-l1');
+      const l2 = document.getElementById('s6-l2');
+      const l3 = document.getElementById('s6-l3');
+      const l4 = document.getElementById('s6-l4');
+      const btn = document.getElementById('s6-next-btn');
+
+      [l1, l2, l3, l4].forEach(l => l.classList.remove('visible'));
+      btn.style.opacity = '0';
+      btn.style.transform = 'translateY(15px)';
+      btn.style.pointerEvents = 'none';
+
+      setTimeout(() => l1.classList.add('visible'), 400);
+      setTimeout(() => l2.classList.add('visible'), 2000);
+      setTimeout(() => l3.classList.add('visible'), 3600);
+      setTimeout(() => l4.classList.add('visible'), 5000);
+      setTimeout(() => {
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateY(0)';
+        btn.style.pointerEvents = 'auto';
+      }, 5900);
+    }
+
+    // SCENE 8 Swirling Heart Sequence
+    function startScene8Sequence() {
+      initHeartParticles();
+      if (heartAnimId) cancelAnimationFrame(heartAnimId);
+      animateHeartSwirl();
+
+      const l1 = document.getElementById('s8-l1');
+      const l2 = document.getElementById('s8-l2');
+      const l3 = document.getElementById('s8-l3');
+      const l4 = document.getElementById('s8-l4');
+      const replayBtn = document.getElementById('replay-btn');
+
+      [l1, l2, l3, l4].forEach(l => l.classList.remove('visible'));
+      replayBtn.style.opacity = '0';
+      replayBtn.style.transform = 'translateY(15px)';
+      replayBtn.style.pointerEvents = 'none';
+
+      setTimeout(() => l1.classList.add('visible'), 500);
+      setTimeout(() => l2.classList.add('visible'), 2200);
+      setTimeout(() => {
+        l3.classList.add('visible');
+        spawnCelebrationBurst(60);
+      }, 3900);
+      setTimeout(() => l4.classList.add('visible'), 5300);
+      setTimeout(() => {
+        replayBtn.style.opacity = '1';
+        replayBtn.style.transform = 'translateY(0)';
+        replayBtn.style.pointerEvents = 'auto';
+      }, 6200);
+    }
+
+    /* =====================================================================
+       7. BUTTON CLICKS & INTERACTION HANDLERS
+       ===================================================================== */
+    // Top Controls: Music Toggle
+    const musicBtn = document.getElementById('music-btn');
+    const musicIcon = document.getElementById('music-icon');
+    const musicLabel = document.getElementById('music-label');
+
+    musicBtn.addEventListener('click', () => {
+      const isNowPlaying = audio.toggle();
+      musicIcon.textContent = isNowPlaying ? '🎵' : '🔇';
+      musicLabel.textContent = isNowPlaying ? 'Playing' : 'Sound';
+      if (isNowPlaying) {
+        showToast("Festive Garba melody playing 🎵✨");
+      }
+    });
+
+    // Scene Navigation Buttons
+    document.getElementById('s1-next-btn').addEventListener('click', () => {
+      audio.init();
+      audio.playDandiyaClack();
+      goToScene(2);
+    });
+
+    document.getElementById('s2-next-btn').addEventListener('click', () => {
+      audio.playDandiyaClack();
+      goToScene(3);
+    });
+
+    document.getElementById('s3-next-btn').addEventListener('click', () => {
+      audio.playDandiyaClack();
+      goToScene(4);
+    });
+
+    // SCENE 4: CHOICES (No cannot proceed, only Yes can proceed!)
+    const yesBtn = document.getElementById('choice-yes-btn');
+    const noBtn = document.getElementById('choice-no-btn');
+    const pleaBubble = document.getElementById('no-plea-bubble');
+    const pleaText = document.getElementById('no-plea-text');
+    const yesBox = document.getElementById('yes-announcement-box');
+    const yesTitle = document.getElementById('yes-announcement-title');
+    const yesText = document.getElementById('yes-announcement-text');
+    const choicesGrid = document.querySelector('.choices-grid');
+
+    let noClickCount = 0;
+    const noExcuses = [
+      { text: "Are you sure? 🥺 Think again, Navratri only comes once a year!", btn: "Think again! 😋" },
+      { text: "There will be hot crispy Jalebi & Fafda with sweet chutney! 🤤✨ Don't say no to snacks!", btn: "Jalebi Fafda? 😋" },
+      { text: "Who will match colorful traditional Gujarati outfits with me? 😭👗👕", btn: "Please please? 🥺" },
+      { text: "My dandiya sticks will literally sit in the corner and cry! 🥢💔", btn: "Dandiya will cry! 🥢" },
+      { text: "The DJ already has your favourite romantic Garba track queued up! 🎶💃", btn: "DJ is ready! 🎶" },
+      { text: "Don't break my sweet little Gujarati heart into a million pieces! 💔🥺", btn: "Don't break heart! 💔" },
+      { text: "Look at the moon, even the festival stars want us to play Garba together! ✨🌙", btn: "Just 1 round? 🥺" },
+      { text: "Error 404: The option to say 'No' is strictly out of stock tonight! ❌😜", btn: "Still trying No? 🙈" },
+      { text: "Look how giant the YES button is getting! You can't even avoid it! 👀❤️", btn: "No more excuses! 🏃‍♂️" },
+      { text: "Okay fine, that's it! 'No' button has officially retired! Only YES allowed! 💃❤️", btn: "YES! OKAY FINE! 💃❤️" }
+    ];
+
+    function triggerYesCelebration() {
+      audio.init();
+      audio.playCelebrationChime();
+      spawnCelebrationBurst(150);
+
+      choicesGrid.style.display = 'none';
+      if (pleaBubble) pleaBubble.style.display = 'none';
+
+      if (noClickCount > 0) {
+        yesTitle.textContent = "SHE FINALLY SAID YES! ❤️🎉💃";
+        yesText.innerHTML = `After <strong>${noClickCount} adorable attempts</strong> to resist, someone couldn't say no! Best Garba night incoming! 🎶✨`;
+      } else {
+        yesTitle.textContent = "SHE SAID YES! ❤️🎉";
+        yesText.textContent = "Looks like someone just found their favourite Garba partner.";
+      }
+
+      yesBox.style.display = 'block';
+    }
+
+    yesBtn.addEventListener('click', triggerYesCelebration);
+
+    noBtn.addEventListener('click', () => {
+      audio.init();
+
+      // If No has turned into the final YES button
+      if (noClickCount >= noExcuses.length - 1) {
+        triggerYesCelebration();
+        return;
+      }
+
+      audio.playPleadingSound();
+
+      // Shake animation on No button
+      noBtn.classList.remove('shake-btn');
+      void noBtn.offsetWidth;
+      noBtn.classList.add('shake-btn');
+
+      // Show plea bubble with funny romantic excuses
+      const currentExcuse = noExcuses[noClickCount];
+      pleaText.textContent = currentExcuse.text;
+      pleaBubble.style.display = 'block';
+
+      // Update No button text
+      noBtn.textContent = currentExcuse.btn;
+
+      // Make YES button grow bigger, brighter, and more prominent
+      const nextScale = 1 + (noClickCount + 1) * 0.12;
+      yesBtn.style.transform = `scale(${Math.min(nextScale, 1.8)})`;
+      yesBtn.style.boxShadow = `0 0 ${25 + noClickCount * 8}px rgba(251, 211, 100, 0.9), 0 0 ${40 + noClickCount * 10}px rgba(224, 33, 138, 0.8)`;
+
+      noClickCount++;
+
+      // If reaching the final attempt, transform the No button permanently into a second YES button!
+      if (noClickCount >= noExcuses.length - 1) {
+        const finalExcuse = noExcuses[noExcuses.length - 1];
+        pleaText.textContent = finalExcuse.text;
+        noBtn.textContent = finalExcuse.btn;
+        noBtn.className = 'glow-btn';
+        noBtn.style.background = 'linear-gradient(135deg, #fbd364 0%, #e0218a 55%, #9b1574 100%)';
+        noBtn.style.borderColor = 'rgba(255, 255, 255, 0.7)';
+        noBtn.style.boxShadow = '0 0 25px rgba(251, 211, 100, 0.8)';
+      } else if (noClickCount >= 4) {
+        // Playful dodges
+        const randomX = (Math.random() - 0.5) * 50;
+        noBtn.style.transform = `translateX(${randomX}px) scale(${Math.max(0.8, 1 - noClickCount * 0.03)})`;
+      }
+    });
+
+    // Make the No button playfully dodge slightly on touch/hover if attempts > 4
+    noBtn.addEventListener('mouseenter', () => {
+      if (noClickCount >= 4 && noClickCount < noExcuses.length - 1) {
+        const randomX = (Math.random() - 0.5) * 60;
+        noBtn.style.transform = `translateX(${randomX}px) scale(0.9)`;
+      }
+    });
+
+    document.getElementById('yes-proceed-btn').addEventListener('click', () => {
+      goToScene(5);
+    });
+
+    document.getElementById('s5-next-btn').addEventListener('click', () => {
+      if (dandiyaInterval) clearInterval(dandiyaInterval);
+      goToScene(6);
+    });
+
+    document.getElementById('s6-next-btn').addEventListener('click', () => {
+      goToScene(7);
+    });
+
+    document.getElementById('s7-next-btn').addEventListener('click', () => {
+      goToScene(8);
+    });
+
+    // Replay Button (Seamless, without page reload)
+    document.getElementById('replay-btn').addEventListener('click', () => {
+      // Reset Scene 4 choices & No button states
+      noClickCount = 0;
+      yesBtn.style.transform = 'scale(1)';
+      yesBtn.style.boxShadow = '';
+      noBtn.textContent = 'NO, NOT TODAY 🙈';
+      noBtn.className = 'glow-btn glow-btn-secondary';
+      noBtn.style.background = '';
+      noBtn.style.borderColor = '';
+      noBtn.style.boxShadow = '';
+      noBtn.style.transform = '';
+      if (pleaBubble) pleaBubble.style.display = 'none';
+      choicesGrid.style.display = 'flex';
+      yesBox.style.display = 'none';
+      goToScene(1);
+    });
+
+    /* =====================================================================
+       8. SAVE & SHARE INVITATION SUMMARY
+       ===================================================================== */
+    const savePlanBtn = document.getElementById('save-plan-btn');
+
+    savePlanBtn.addEventListener('click', async () => {
+      audio.playCelebrationChime();
+      const shareTitle = "Navratri Garba Night Invitation ❤️💃";
+      const shareText = `Will You Be My Garba Partner? ❤️✨\n\n` +
+        `Dear ${CONFIG.girlName},\n` +
+        `You are officially invited to make this Navratri night unforgettable!\n\n` +
+        `💃 Garba Partner: ${CONFIG.boyName}\n` +
+        `📅 Date: ${CONFIG.date}\n` +
+        `⏰ Time: ${CONFIG.time}\n` +
+        `📍 Venue: ${CONFIG.venue}\n` +
+        `✨ Dress Code: Your Most Beautiful Traditional Outfit\n` +
+        `🌟 Most Important Detail: You being there! ❤️`;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: shareTitle,
+            text: shareText,
+            url: window.location.href
+          });
+          showToast("Shared successfully! ❤️");
+          return;
+        } catch (err) {
+          // If cancelled or rejected, fall back to clipboard
+        }
+      }
+
+      // Clipboard fallback
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareText).then(() => {
+          showToast("Invitation details copied to clipboard! Share it with her! ❤️");
+        }).catch(() => {
+          fallbackCopyText(shareText);
+        });
+      } else {
+        fallbackCopyText(shareText);
+      }
+    });
+
+    function fallbackCopyText(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast("Invitation copied to clipboard! ❤️");
+      } catch (err) {
+        showToast("Here's to our magical Garba night! ❤️");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    /* =====================================================================
+       9. PERSONALIZATION MODAL LOGIC
+       ===================================================================== */
+    const customizeBtn = document.getElementById('customize-btn');
+    const modal = document.getElementById('customize-modal');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalSaveBtn = document.getElementById('modal-save-btn');
+
+    const inBoy = document.getElementById('input-boy-name');
+    const inGirl = document.getElementById('input-girl-name');
+    const inDate = document.getElementById('input-date');
+    const inTime = document.getElementById('input-time');
+    const inVenue = document.getElementById('input-venue');
+
+    customizeBtn.addEventListener('click', () => {
+      inBoy.value = CONFIG.boyName || '';
+      inGirl.value = CONFIG.girlName || '';
+      inDate.value = CONFIG.date || '';
+      inTime.value = CONFIG.time || '';
+      inVenue.value = CONFIG.venue || '';
+      modal.classList.add('open');
+    });
+
+    modalCloseBtn.addEventListener('click', () => {
+      modal.classList.remove('open');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+
+    modalSaveBtn.addEventListener('click', () => {
+      if (inBoy.value.trim()) CONFIG.boyName = inBoy.value.trim();
+      if (inGirl.value.trim()) CONFIG.girlName = inGirl.value.trim();
+      if (inDate.value.trim()) CONFIG.date = inDate.value.trim();
+      if (inTime.value.trim()) CONFIG.time = inTime.value.trim();
+      if (inVenue.value.trim()) CONFIG.venue = inVenue.value.trim();
+
+      try {
+        localStorage.setItem('garba_invite_config', JSON.stringify(CONFIG));
+      } catch(e) {}
+
+      updateDOMWithConfig();
+      modal.classList.remove('open');
+      showToast("Invitation updated with your names! ✨❤️");
+    });
+
+    /* =====================================================================
+       10. BOOTSTRAP APP ON LOAD
+       ===================================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      updateDOMWithConfig();
+      startScene1Sequence();
+    });
+  </script>
+</body>
+</html>
